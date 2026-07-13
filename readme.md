@@ -30,6 +30,7 @@ The treekers -   Dashboard, Browse Treks, My Bookings, Profile
 1. Clone the repository:
    - git clone https://github.com/aadilCode/Mad1-app.git
 2. Install Flask:
+   ```
    pip install -r requirements.txt
    ```
 3. Run the app:
