@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{{ url_for('user.treks') }}" class="btn btn-sm btn-outline-secondary">&larr; Back</a>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <h4>{{ trek.name }}</h4>
+        <p class="text-muted">{{ trek.location }} - {{ trek.difficulty }}</p>
+        <p>{{ trek.duration }} days | {{ trek.start_date }} to {{ trek.end_date }}</p>
+        <p>{{ trek.description }}</p>
+        <p><strong>{{ trek.available_slots }}</strong> of {{ trek.total_slots }} slots available</p>
+        <p>Status: <strong>{{ trek.status }}</strong></p>
+
+        {% if already_booked %}
+        <div class="alert alert-info">You already booked this trek.</div>
+        {% elif trek.status == 'Open' and trek.available_slots > 0 %}
+        <form method="POST" action="{{ url_for('user.book_trek', trek_id=trek.id) }}">
+            <button type="submit" class="btn btn-success">Book This Trek</button>
+        </form>
+        {% elif trek.status != 'Open' %}
+        <div class="alert alert-warning">This trek is not open for booking yet.</div>
+        {% else %}
+        <div class="alert alert-danger">This trek is fully booked.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

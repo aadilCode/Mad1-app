@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Browse Treks</h3>
+
+<form method="GET" class="row g-2 mt-2 mb-3">
+    <div class="col-md-4">
+        <input type="text" name="location" class="form-control" placeholder="Filter by location" value="{{ location }}">
+    </div>
+    <div class="col-md-4">
+        <select name="difficulty" class="form-select">
+            <option value="">All Difficulties</option>
+            <option value="Easy" {% if difficulty=='Easy' %}selected{% endif %}>Easy</option>
+            <option value="Moderate" {% if difficulty=='Moderate' %}selected{% endif %}>Moderate</option>
+            <option value="Hard" {% if difficulty=='Hard' %}selected{% endif %}>Hard</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-success w-100">Filter</button>
+    </div>
+</form>
+
+<div class="row">
+    {% for t in treks %}
+    <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+                <h6>{{ t.name }}</h6>
+                <p class="text-muted mb-1">{{ t.location }} - {{ t.difficulty }}</p>
+                <p class="mb-1">{{ t.duration }} days</p>
+                <p class="mb-2">{{ t.available_slots }} / {{ t.total_slots }} slots available</p>
+                <a href="{{ url_for('user.trek_detail', trek_id=t.id) }}" class="btn btn-sm btn-success">View & Book</a>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <p class="text-muted">No treks match your search.</p>
+    {% endfor %}
+</div>
+{% endblock %}
