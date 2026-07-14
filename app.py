@@ -9,8 +9,9 @@ from routes.admin_routes import admin_bp
 from routes.staff_routes import staff_bp
 from routes.user_routes import user_bp
 
-app = flask(__name__)
+app = Flask(__name__)
 app.secret_key = config.SECRET_KEY
+
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
@@ -25,8 +26,7 @@ def inject_user():
     return {"current_user":get_current_user()}
 
 
-@app_route("/")
-
+@app.route("/")
 def home():
     """sending the visitor to login or correct dashboard"""
 
@@ -44,6 +44,7 @@ def home():
         return redirect(url_for("staff.dashboard"))
     return redirect(url_for("user.dashboard"))
 
-    if name == " __main__":
-        init_db()
-        app.run(debug=True)
+
+if __name__ == "__main__":
+    init_db()
+    app.run(debug=True)

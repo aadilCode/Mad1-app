@@ -54,24 +54,24 @@ def validate_trek_form(form):
     return values, errors
 
 @admin_bp.route("/dashboard")
-    def dashboard():
-        redirect_response = admin_required()
-        if redirect_response:
-            return redirect_response
+def dashboard():
+    redirect_response = admin_required()
+    if redirect_response:
+        return redirect_response
 
-        conn = get_db()
-        total_treks = conn.execute("SELECT COUNT(*) FROM treks").fetchone()[0]
-        total_users = conn.execute("SELECT COUNT(*) FROM users WHERE role='trekers'").fetchone()[0]
-        total_staff = conn.execute("SELECT COUNT(*) FROM users WHERE role='staff'").fetchone()[0]
-        total_booking = conn.execute("SELECT COUNT(*) FROM booking").fetchone()[0]
-        pending_staff = conn.execute(
-        "SELECT COUNT(*) FROM users WHERE role = 'staff' AND status = 'pending'").fetchone()[0]
-        conn.close()
+    conn = get_db()
+    total_treks = conn.execute("SELECT COUNT(*) FROM treks").fetchone()[0]
+    total_users = conn.execute("SELECT COUNT(*) FROM users WHERE role='trekers'").fetchone()[0]
+    total_staff = conn.execute("SELECT COUNT(*) FROM users WHERE role='staff'").fetchone()[0]
+    total_booking = conn.execute("SELECT COUNT(*) FROM booking").fetchone()[0]
+    pending_staff = conn.execute(
+    "SELECT COUNT(*) FROM users WHERE role = 'staff' AND status = 'pending'").fetchone()[0]
+    conn.close()
 
-        return render_template(
-            "admin_dashboard.html",
-            total_treks = total_treks, total_staff = total_staff,total_users= total_users,total_booking= total_booking,pending_staff= pending_staff
-        )
+    return render_template(
+        "admin_dashboard.html",
+        total_treks = total_treks, total_staff = total_staff,total_users= total_users,total_booking= total_booking,pending_staff= pending_staff
+    )
 
 # ---------------- Treks ----------------
 
