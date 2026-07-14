@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<a href="{{ url_for('staff.dashboard') }}" class="btn btn-sm btn-outline-secondary">&larr; Back</a>
+
+<div class="row mt-3">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-body">
+                <h5>{{ trek.name }}</h5>
+                <p class="text-muted">{{ trek.location }} - {{ trek.difficulty }}</p>
+                <p>{{ trek.start_date }} to {{ trek.end_date }}</p>
+                <p>{{ trek.description }}</p>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Status</label>
+                        <select name="status" class="form-select">
+                            {% for st in ["Approved", "Open", "Closed", "Completed"] %}
+                            <option value="{{ st }}" {% if trek.status==st %}selected{% endif %}>{{ st }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Available Slots (max {{ trek.total_slots }})</label>
+                        <input type="number" name="available_slots" class="form-control"
+                            value="{{ trek.available_slots }}" min="0" max="{{ trek.total_slots }}">
+                    </div>
+                    <button type="submit" class="btn btn-success w-100">Update Trek</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <h5>Registered Participants ({{ participants|length }})</h5>
+        <table class="table table-bordered bg-white">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in participants %}
+                <tr>
+                    <td>{{ p.user_name }}</td>
+                    <td>{{ p.user_email }}</td>
+                    <td>{{ p.status }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="text-center">No participants yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
