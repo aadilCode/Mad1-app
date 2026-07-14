@@ -29,6 +29,11 @@
             <td>{{ t.staff_name or "Unassigned" }}</td>
             <td>{{ t.status }}</td>
             <td>
+                {% if t.status == 'Pending' %}
+                <form method="POST" action="{{ url_for('admin.approve_trek', trek_id=t.id) }}" style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                </form>
+                {% endif %}
                 <a href="{{ url_for('admin.edit_trek', trek_id=t.id) }}" class="btn btn-sm btn-primary">Edit</a>
                 <form method="POST" action="{{ url_for('admin.delete_trek', trek_id=t.id) }}" style="display:inline">
                     <button type="submit" class="btn btn-sm btn-danger"

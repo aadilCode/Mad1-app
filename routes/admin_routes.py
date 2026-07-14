@@ -70,7 +70,11 @@ def dashboard():
 
     return render_template(
         "admin_dashboard.html",
-        total_treks = total_treks, total_staff = total_staff,total_users= total_users,total_booking= total_booking,pending_staff= pending_staff
+        total_treks=total_treks,
+        total_staff=total_staff,
+        total_users=total_users,
+        total_bookings=total_booking,
+        pending_staff=pending_staff,
     )
 
 # ---------------- Treks ----------------
@@ -190,6 +194,26 @@ def edit_trek(trek_id):
 
     conn.close()
     return render_template("admin_trek_form.html", trek=trek, staff_list=staff_list, is_edit=True)
+
+
+@admin_bp.route("/treks/approve/<int:trek_id>", methods=["POST"])
+def approve_trek(trek_id):
+    redirect_response = admin_required()
+    if redirect_response:
+        return redirect_response
+
+    conn = get_db()
+    trek = conn.execute("SELECT id FROM treks WHERE id = ?", (trek_id,)).fetchone()
+    if trek is None:
+        conn.close()
+        flash("That trek no longer exists.", "danger")
+        return redirect(url_for("admin.treks"))
+
+    conn.execute("UPDATE treks SET status = 'Approved' WHERE id = ?", (trek_id,))
+    conn.commit()
+    conn.close()
+    flash("Trek approved.", "success")
+    return redirect(url_for("admin.treks"))
 
 
 @admin_bp.route("/treks/delete/<int:trek_id>", methods=["POST"])
@@ -323,7 +347,7 @@ def bookings():
         ORDER BY bookings.id DESC
     """).fetchall()
     conn.close()
-    return render_template("admin_bookings.html", bookings=all_bookings)
+    return render_template("admin_booking.html", bookings=all_bookings)
 
 
 # ---------------- Search ----------------

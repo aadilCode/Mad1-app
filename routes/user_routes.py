@@ -50,7 +50,7 @@ def treks():
     all_treks = conn.execute(query, params).fetchall()
     conn.close()
 
-    return render_template("user_treks.html", treks=all_treks, location=location, difficulty=difficulty)
+    return render_template("user_trek.html", treks=all_treks, location=location, difficulty=difficulty)
 
 
 @user_bp.route("/trek/<int:trek_id>")
@@ -121,7 +121,7 @@ def bookings():
     """, (user["id"],)).fetchall()
     conn.close()
 
-    return render_template("user_bookings.html", bookings=all_bookings)
+    return render_template("user_booking.html", bookings=all_bookings)
 
 
 @user_bp.route("/cancel/<int:booking_id>", methods=["POST"])

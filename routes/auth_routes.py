@@ -26,7 +26,7 @@ def register():
             flash("An account with the same email already exists", "danger")
 
         else:
-            status = "Pending" if role == "staff" else "active"
+            status = "pending" if role == "staff" else "active"
 
             conn.execute(
                 "INSERT INTO users(name, email, phone, password, role, status) VALUES(?,?,?,?,?,?)",
