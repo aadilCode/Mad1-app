@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>{{ "Edit Trek" if is_edit else "Add New Trek" }}</h3>
+
+<div class="card mt-3">
+    <div class="card-body">
+        <form method="POST">
+            <div class="mb-3">
+                <label class="form-label">Trek Name</label>
+                <input type="text" name="name" class="form-control" value="{{ trek.name if trek else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Location</label>
+                <input type="text" name="location" class="form-control" value="{{ trek.location if trek else '' }}"
+                    required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Difficulty</label>
+                <select name="difficulty" class="form-select">
+                    <option value="Easy" {% if trek and trek.difficulty=='Easy' %}selected{% endif %}>Easy</option>
+                    <option value="Moderate" {% if trek and trek.difficulty=='Moderate' %}selected{% endif %}>Moderate
+                    </option>
+                    <option value="Hard" {% if trek and trek.difficulty=='Hard' %}selected{% endif %}>Hard</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Duration (days)</label>
+                <input type="number" min="1" name="duration" class="form-control"
+                    value="{{ trek.duration if trek else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Total Slots</label>
+                <input type="number" min="1" name="total_slots" class="form-control"
+                    value="{{ trek.total_slots if trek else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Start Date</label>
+                <input type="date" name="start_date" class="form-control" value="{{ trek.start_date if trek else '' }}"
+                    required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">End Date</label>
+                <input type="date" name="end_date" class="form-control" value="{{ trek.end_date if trek else '' }}"
+                    required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Assign Staff</label>
+                <select name="staff_id" class="form-select">
+                    <option value="">-- Unassigned --</option>
+                    {% for s in staff_list %}
+                    <option value="{{ s.id }}" {% if trek and (trek.staff_id|int(-1))==s.id %}selected{% endif %}>{{
+                        s.name }}</option>
+                    {% endfor %}
+                </select>
+                {% if not staff_list %}
+                <div class="form-text">No active staff yet — approve a staff member first if you want to assign one now.
+                    You can always assign staff later by editing this trek.</div>
+                {% endif %}
+            </div>
+            {% if is_edit %}
+            <div class="mb-3">
+                <label class="form-label">Status</label>
+                <select name="status" class="form-select">
+                    {% for st in ["Pending", "Approved", "Open", "Closed", "Completed"] %}
+                    <option value="{{ st }}" {% if trek.status==st %}selected{% endif %}>{{ st }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            {% endif %}
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <textarea name="description" class="form-control"
+                    rows="3">{{ trek.description if trek else '' }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-success">Save</button>
+            <a href="{{ url_for('admin.treks') }}" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

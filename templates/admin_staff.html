@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Manage Staff</h3>
+
+<table class="table table-bordered bg-white mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for s in staff %}
+        <tr>
+            <td>{{ s.id }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.email }}</td>
+            <td>{{ s.status }}</td>
+            <td>
+                {% if s.status == 'pending' %}
+                <form method="POST" action="{{ url_for('admin.approve_staff', staff_id=s.id) }}" style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-success">Approve</button>
+                </form>
+                {% endif %}
+                {% if s.status != 'blacklisted' %}
+                <form method="POST" action="{{ url_for('admin.blacklist_staff', staff_id=s.id) }}"
+                    style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-danger">Blacklist</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">No staff registered yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

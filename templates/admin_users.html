@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Manage Users (Trekkers)</h3>
+
+<table class="table table-bordered bg-white mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.name }}</td>
+            <td>{{ u.email }}</td>
+            <td>{{ u.status }}</td>
+            <td>
+                {% if u.status != 'blacklisted' %}
+                <form method="POST" action="{{ url_for('admin.blacklist_user', user_id=u.id) }}" style="display:inline">
+                    <button type="submit" class="btn btn-sm btn-danger">Blacklist</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">No users registered yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

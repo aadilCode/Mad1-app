@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Search</h3>
+
+<form method="GET" class="row g-2 mt-2">
+    <div class="col-md-8">
+        <input type="text" name="q" class="form-control" placeholder="Search by name or ID..." value="{{ query }}">
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-success w-100">Search</button>
+    </div>
+</form>
+
+{% if query %}
+<div class="row mt-4">
+    <div class="col-md-4">
+        <h5>Treks</h5>
+        <ul class="list-group">
+            {% for t in treks %}
+            <li class="list-group-item">{{ t.name }} (#{{ t.id }}) - {{ t.location }}</li>
+            {% else %}
+            <li class="list-group-item text-muted">No matches</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h5>Staff</h5>
+        <ul class="list-group">
+            {% for s in staff %}
+            <li class="list-group-item">{{ s.name }} (#{{ s.id }}) - {{ s.email }}</li>
+            {% else %}
+            <li class="list-group-item text-muted">No matches</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <h5>Users</h5>
+        <ul class="list-group">
+            {% for u in users %}
+            <li class="list-group-item">{{ u.name }} (#{{ u.id }}) - {{ u.email }}</li>
+            {% else %}
+            <li class="list-group-item text-muted">No matches</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>Admin Dashboard</h3>
+
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-success">
+            <div class="card-body">
+                <h6>Total Treks</h6>
+                <h2>{{ total_treks }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-primary">
+            <div class="card-body">
+                <h6>Total Users</h6>
+                <h2>{{ total_users }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning">
+            <div class="card-body">
+                <h6>Total Staff</h6>
+                <h2>{{ total_staff }}</h2>
+                {% if pending_staff %}
+                <div class="small">{{ pending_staff }} awaiting approval</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info">
+            <div class="card-body">
+                <h6>Total Bookings</h6>
+                <h2>{{ total_bookings }}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a href="{{ url_for('admin.add_trek') }}" class="btn btn-success">+ Add Trek</a>
+    <a href="{{ url_for('admin.staff_list') }}" class="btn btn-outline-secondary">Manage Staff</a>
+    <a href="{{ url_for('admin.bookings') }}" class="btn btn-outline-secondary">View Bookings</a>
+</div>
+{% endblock %}

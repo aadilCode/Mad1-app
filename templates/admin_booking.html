@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h3>All Bookings</h3>
+
+<table class="table table-bordered bg-white mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>User</th>
+            <th>Trek</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for b in bookings %}
+        <tr>
+            <td>{{ b.id }}</td>
+            <td>{{ b.user_name }}</td>
+            <td>{{ b.trek_name }}</td>
+            <td>{{ b.booking_date }}</td>
+            <td>{{ b.status }}</td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="5" class="text-center">No bookings yet.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
