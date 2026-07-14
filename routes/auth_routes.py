@@ -22,8 +22,8 @@ def register():
             flash("Password do not match.","danger")
         elif len(password) < 6:
             flash("password must be at least 6 character.","danger")
-        elif conn.execute("SELECT * FROM users from WHERE email = ?",(email,)).fetchone():
-            flash("An account with the same email already exists","danger")
+        elif conn.execute("SELECT * FROM users WHERE email = ?", (email,)).fetchone():
+            flash("An account with the same email already exists", "danger")
 
         else:
             status = "Pending" if role == "staff" else "active"
@@ -32,7 +32,7 @@ def register():
                 "INSERT INTO users(name, email, phone, password, role, status) VALUES(?,?,?,?,?,?)",
                 (name,email,phone,generate_password_hash(password),role,status)
             )
-            conn.comit()
+            conn.commit()
             conn.close()
 
             flash("your registration is successful please login with the same credentials","success")

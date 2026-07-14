@@ -21,12 +21,12 @@ def validate_trek_form(form):
     values = {
         "name":form.get("name","").strip(),
         "location":form.get("location","").strip(),
-        "dificulty":form.get("dificulty","").strip(),
+        "difficulty":form.get("difficulty","").strip(),
         "duration":form.get("duration","").strip(),
         "total_slots":form.get("total_slots","").strip(),
         "start_date":form.get("start_date","").strip(),
         "end_date":form.get("end_date","").strip(),
-        "description":form.get("description").strip(),
+        "description":form.get("description","").strip(),
         "staff_id": form.get("staff_id", "").strip(),
         "status": form.get("status", "").strip(),
     }
@@ -34,11 +34,11 @@ def validate_trek_form(form):
 
     if not values["name"]:
         errors.append("Trek name is required.")
-    if not values["locations"]:
+    if not values["location"]:
         errors.append("Location is required")
 
     if values["difficulty"] not in VALID_DIFFICULTIES:
-        errors.append("please choose a vaild difficulty")
+        errors.append("Please choose a valid difficulty.")
 
     if not values["duration"].isdigit() or int(values["duration"]) <= 0:
         errors.append("Duration must be a whole number greater than 0.")
@@ -61,9 +61,9 @@ def dashboard():
 
     conn = get_db()
     total_treks = conn.execute("SELECT COUNT(*) FROM treks").fetchone()[0]
-    total_users = conn.execute("SELECT COUNT(*) FROM users WHERE role='trekers'").fetchone()[0]
+    total_users = conn.execute("SELECT COUNT(*) FROM users WHERE role='trekker'").fetchone()[0]
     total_staff = conn.execute("SELECT COUNT(*) FROM users WHERE role='staff'").fetchone()[0]
-    total_booking = conn.execute("SELECT COUNT(*) FROM booking").fetchone()[0]
+    total_booking = conn.execute("SELECT COUNT(*) FROM bookings").fetchone()[0]
     pending_staff = conn.execute(
     "SELECT COUNT(*) FROM users WHERE role = 'staff' AND status = 'pending'").fetchone()[0]
     conn.close()

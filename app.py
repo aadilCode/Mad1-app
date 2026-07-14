@@ -18,6 +18,9 @@ app.register_blueprint(admin_bp)
 app.register_blueprint(staff_bp)
 app.register_blueprint(user_bp)
 
+# Ensure database and tables exist on import (safe: CREATE TABLE IF NOT EXISTS is idempotent)
+init_db()
+
 
 
 @app.context_processor
